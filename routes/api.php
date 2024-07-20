@@ -27,16 +27,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/logout', 'logout');
     });
 
-    Route::controller(UserController::class)->group(function () {
-        Route::get('/users', 'index');
-        Route::get('/users/{id}', 'show');
-        Route::patch('/users/{id}', 'update');
-    });
 });
 
 
 
 // token not required
+
+Route::controller(UserController::class)->group(function () {
+    Route::get('/users', 'index');
+    Route::get('/users/{id}', 'show');
+    Route::patch('/users/{id}', 'update');
+});
+
 Route::controller(LoginController::class)->group(function () {
     Route::post('/login', 'login');
     Route::post('/login-verify-otp/{id}', 'verify_otp');

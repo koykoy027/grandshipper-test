@@ -26,29 +26,6 @@ class LoginController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user->user_profile->is_active) {
-            Auth::logout();
-            return $this->error('', 'User is not active', 401);
-        }
-
-        if ($user->user_profile->is_otp_enabled) {
-
-            $otp_reason = 'Login user';
-            $generate_otp = new UserOTP();
-            $generate_otp->generate_otp($user, $otp_reason);
-
-            $id = Auth::user()->id;
-            $email = Auth::user()->email;
-            $otp_portal = Auth::user()->user_profile->otp_portal;
-
-            // Auth::logout();
-            return $this->success([
-                'id' => $id,
-                'email' => $email,
-                'otp_portal' => $otp_portal,
-            ]);
-        }
-
         return $this->success([
             'user' => $user,
             'token' => $user->createToken('API Token of ' . $user->user_profile->firstname)->plainTextToken
