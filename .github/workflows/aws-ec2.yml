@@ -20,11 +20,11 @@ jobs:
 
       - name: Build and run Docker container
         run: |
-          docker-compose build app
-          docker-compose up -d
+          sudo docker-compose build app
+          sudo docker-compose up -d
 
       - name: Install Composer dependencies
-        run: docker-compose exec app composer install --no-interaction --optimize-autoloader
+        run: sudo docker-compose exec app composer install --no-interaction --optimize-autoloader
 
       - name: Deploy to EC2
         run: |
@@ -33,7 +33,7 @@ jobs:
 
       - name: Give permission
         run: |
-          sudo chown -R www-data:www-data /var/www/html/laravel
-          sudo chmod -R 775 /var/www/html/laravel
-          sudo chmod -R 775 /var/www/html/laravel/storage
-          sudo chmod -R 775 /var/www/html/laravel/bootstrap/cache
+          sudo chown -R www-data:www-data /var/www/public
+          sudo chmod -R 775 /var/www/public
+          sudo chmod -R 775 /var/www/public/storage
+          sudo chmod -R 775 /var/www/public/bootstrap/cache
