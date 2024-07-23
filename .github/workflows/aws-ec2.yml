@@ -14,7 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build and run Docker container
+      - name: Stop and remove old containers
+        run: |
+          sudo docker stop laravel-app laravel-nginx || true
+          sudo docker rm laravel-app laravel-nginx || true
+
+      - name: Build and run new Docker container
         run: |
           sudo docker-compose build app
           sudo docker-compose up -d
