@@ -14,18 +14,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy to EC2
+      - name: Make directory and copy entire folders
         run: |
           sudo mkdir -p /var/www/html
           sudo cp -r * /var/www/html
-
-      - name: Set File Permissions
-        run: |
-          sudo chown -R www-data:www-data /var/www/html
-          sudo chmod -R 775 /var/www/html/public
-          sudo chmod -R 775 /var/www/html/storage
-          sudo chmod -R 775 /var/www/html/bootstrap/cache
-
+          
       - name: Verify Docker Compose Installation
         run: |
           docker-compose --version
@@ -35,6 +28,13 @@ jobs:
         run: |
           sudo docker-compose build
           sudo docker-compose up -d
+
+      - name: Set File Permissions
+        run: |
+          sudo chown -R www-data:www-data /var/www/html
+          sudo chmod -R 775 /var/www/html/public
+          sudo chmod -R 775 /var/www/html/storage
+          sudo chmod -R 775 /var/www/html/bootstrap/cache
 
       - name: Install Composer dependencies
         working-directory: /var/www/html
