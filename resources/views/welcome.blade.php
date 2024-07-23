@@ -9,6 +9,7 @@
             margin: 5%;
         }
     </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     <h1>Displays Data Retrieved from the API</h1>
@@ -30,23 +31,24 @@
     <!-- Axios CDN -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        const baseURL = "{{ env("APP_URL") }}"
+        axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        const baseURL = "{{ rtrim(env('APP_URL'), '/') }}/";
 
         // Fetch data from the API
         axios.get(baseURL + 'api/users')
             .then(function (response) {
-                // Handle success
                 const dataDiv = document.getElementById('data');
                 dataDiv.textContent = JSON.stringify(response.data, null, 2);
             })
             .catch(function (error) {
-                // Handle error
                 console.error('Error fetching data:', error);
             });
 
         // Handle form submission
         document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent page reload
+            event.preventDefault();
 
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -60,8 +62,7 @@
                 responseDiv.textContent = JSON.stringify(response.data, null, 2);
             })
             .catch(function(error) {
-                // console.error('Error logging in:', error);
-                responseDiv.textContent = JSON.stringify(error.response.data.message, null, 2);
+                responseDiv.textContent = error.response ? JSON.stringify(error.response.data.message, null, 2) : 'Error logging in';
             });
         });
     </script>
