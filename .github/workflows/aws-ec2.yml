@@ -1,0 +1,30 @@
+name: AWS EC2 CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  laravel:
+    name: Continuous Integration
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --optimize-autoloader
+
+      - name: Deploy to EC2
+        run: |
+            sudo mkdir -p /var/www/public 
+            sudo cp -r * /var/www/public
+
+      - name: Give permission
+        run: |
+          sudo chown -R www-data:www-data /var/www/html/laravel
+          sudo chmod -R 775 /var/www/html/laravel
+          sudo chmod -R 775 /var/www/html/laravel/storage
+          sudo chmod -R 775 /var/www/html/laravel/bootstrap/cache
