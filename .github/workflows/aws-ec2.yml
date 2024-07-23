@@ -15,23 +15,17 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build and run Docker container
-        #working-directory: /var/www/html
         run: |
           sudo docker-compose build
           sudo docker-compose up -d
 
       - name: Install Composer dependencies
-        #working-directory: /var/www/html
         run: sudo docker-compose exec app composer install --no-interaction --optimize-autoloader
 
       - name: Make directory and copy entire folders
         run: |
           sudo mkdir -p /var/www/html
           sudo cp -r * /var/www/html
-
-          
-
-      
 
       - name: Set File Permissions
         run: |
@@ -40,4 +34,11 @@ jobs:
           sudo chmod -R 775 /var/www/html/storage
           sudo chmod -R 775 /var/www/html/bootstrap/cache
 
-      
+      - name: Down Docker container in actions-runner
+        run: sudo docker-compose down
+
+      - name: Build and run Docker
+        working-directory: /var/www/html
+        run: |
+          sudo docker-compose build app
+          sudo docker-compose up -d
