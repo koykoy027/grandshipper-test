@@ -37,5 +37,5 @@ jobs:
           sudo docker-compose up -d
 
       - name: Install Composer dependencies
-        working-directory: /var/www/html
+        working-directory: /var/www/html/
         run: sudo docker-compose exec app composer install --no-interaction --optimize-autoloader
