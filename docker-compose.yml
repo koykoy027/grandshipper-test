@@ -1,4 +1,3 @@
-# version: "3.7"
 services:
   app:
     build:
@@ -10,9 +9,9 @@ services:
     image: laravel
     container_name: laravel-app
     restart: unless-stopped
-    working_dir: /var/www/
+    working_dir: /var/www/html
     volumes:
-      - ./:/var/www/
+      - ./:/var/www/html
     networks:
       - laravel
 
@@ -39,7 +38,7 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./:/var/www/
+      - ./:/var/www/html
       - ./docker-compose/nginx:/etc/nginx/conf.d
     networks:
       - laravel
