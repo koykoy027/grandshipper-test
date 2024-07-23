@@ -14,22 +14,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Deploy to EC2
+        run: |
+          sudo mkdir -p /var/www/html
+          sudo cp -r * /var/www/html
+
       - name: Verify Docker Compose Installation
         run: |
           docker-compose --version
 
       - name: Build and run Docker container
+        working-directory: /var/www/html
         run: |
-          sudo docker-compose build app
+          sudo docker-compose build
           sudo docker-compose up -d
 
       - name: Install Composer dependencies
+        working-directory: /var/www/html
         run: sudo docker-compose exec app composer install --no-interaction --optimize-autoloader
 
-      - name: Deploy to EC2
-        run: |
-              sudo mkdir -p /var/www/html 
-              sudo cp -r * /var/www/html
+      
 
       - name: Give permission
         run: |
