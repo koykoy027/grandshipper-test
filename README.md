@@ -1,6 +1,12 @@
 # Introduction
 Hi, This is sample repository to show API Service, display data retrieved from the API and Centralized Auth Service.
 
+## How to run this Laravel app
+- Clone this repository first
+- Make sure you have docker desktop
+- Go to root folder and build your app `docker compose up --force-recreate -d --build`
+- To run artisan command `docker compose exec app php artisan <command>`
+
 ### Application used
 - We used Laravel Framework (MVC) to make api and generate token that can be used for user authentication
    - Here we display user datas. File location for Controller`app/Http/Controllers/User/UserController`
