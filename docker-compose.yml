@@ -1,9 +1,10 @@
 services:
+  # laravel app
   app:
     build:
-      args:
-        user: josh
-        uid: 1000
+      # args:
+      #   user: josh
+      #   uid: 1000
       context: ./
       dockerfile: Dockerfile
     image: laravel
@@ -15,6 +16,7 @@ services:
     networks:
       - laravel
 
+  # database
   # db:
   #   image: mysql:5.7
   #   container_name: laravel-db
@@ -31,6 +33,7 @@ services:
   #   networks:
   #     - laravel
 
+  # nginx
   nginx:
     image: nginx:alpine
     container_name: laravel-nginx
